@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct PostData: Codable {
-    let data: PostResponse
-}
-
-struct PostResponse: Codable {
+struct GetPostData: Codable {
     let id: Int
     let userId: Int
     let title: String
     let body: String
 }
+struct SendPostData: Codable {
+    let id: Int
+}
+

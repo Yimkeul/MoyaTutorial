@@ -7,8 +7,12 @@
 
 import Foundation
 
-struct TeachalbeModel: Codable {
+struct TeachableModel: Codable {
     let classProbabilities: [[Double]]
     let topClassIndex: Int
     let resultMessage: String
+}
+
+struct ImageURLModel: Codable {
+    let imageURL: String
 }

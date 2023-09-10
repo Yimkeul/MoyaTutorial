@@ -35,7 +35,7 @@ struct ContentView: View {
 
         }.task {
             postViewModel.requestPost()
-            teachableModel.requestTeachableData()
+//            await teachableModel.requestTeachableData()
         }
     }
 }

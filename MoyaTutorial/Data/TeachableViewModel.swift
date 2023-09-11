@@ -16,14 +16,7 @@ enum TeachableService {
 
 extension TeachableService: TargetType {
     var baseURL: URL {
-//        switch self {
-//        case .getData:
-//            return URL(string: "https://port-0-teachablemachineapi-2u73n2llm7ax6bh.sel5.cloudtype.app")!
-//        case .getImageURL:
-//            return URL(string: "http://localhost:3000")!
-//        }
         return URL(string: "https://port-0-teachablemachineapi-2u73n2llm7ax6bh.sel5.cloudtype.app")!
-//        return URL(string: "http://localhost:3000")!
     }
 
     var path: String {
@@ -72,7 +65,7 @@ class TeachableViewModel: ObservableObject {
     @Published var getImageURL: ImageURLModel? //이미지 url
 
     private let provider = MoyaProvider<TeachableService>()
-    
+
     func requestImageURL(imageData: Data, completion: @escaping (Result<ImageURLModel, Error>) -> Void) {
         provider.request(.getImageURL(imageData: imageData)) { result in
             switch result {
@@ -116,11 +109,9 @@ class TeachableViewModel: ObservableObject {
             }
         }
     }
-
-    
-    // MARK : Ver.1
-    // url요청 함수
-//    func requestImageURL(imageData: Data) async {
+//    // MARK : Ver.1
+//    // url요청 함수
+//    func requestImageURL1(imageData: Data) async {
 //        provider.request(.getImageURL(imageData: imageData)) { result in
 //            switch result {
 //            case .success(let response):
@@ -138,9 +129,9 @@ class TeachableViewModel: ObservableObject {
 //            }
 //        }
 //    }
-    
-    // 분석요청 함수
-//    func requestTeachableData() async {
+//
+////     분석요청 함수
+//    func requestTeachableData1() async {
 //        provider.request(.getData) { result in
 //            switch result {
 //            case .success(let response):

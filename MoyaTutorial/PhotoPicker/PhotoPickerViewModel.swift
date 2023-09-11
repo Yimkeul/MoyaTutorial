@@ -14,6 +14,7 @@ final class PhotoPickerViewModel: ObservableObject {
     @Published var imageSelection: PhotosPickerItem? = nil
     {
         didSet {
+            selectedImage = nil // 선택한 이미지 데이터 초기화
             setImage(from: imageSelection)
         }
     }
@@ -34,10 +35,5 @@ final class PhotoPickerViewModel: ObservableObject {
                 print(error)
             }
         }
-    }
-
-    func deleteImage() {
-        selectedImage = nil
-        imageSelection = nil
     }
 }

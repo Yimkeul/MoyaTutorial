@@ -24,7 +24,6 @@ struct PhotoPickerView: View {
                 teachableModel.requestTeachableData { teachableResult in
                     switch teachableResult {
                     case .success:
-                        photoPickerViewModel.deleteImage()
                         completion(nil) // 모든 작업이 성공적으로 완료되었을 때
                     case .failure(let teachableError):
                         completion(teachableError) // teachableModel 요청 중 에러 발생

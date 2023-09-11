@@ -12,7 +12,7 @@ struct PhotoPickerView: View {
     @StateObject private var photoPickerViewModel = PhotoPickerViewModel()
     @StateObject var imageURLViewModel: TeachableViewModel = TeachableViewModel()
     @StateObject var teachableModel: TeachableViewModel = TeachableViewModel()
-    
+
 
     func processData(uiImage: UIImage, completion: @escaping (Error?) -> Void)  {
         guard let imageData = uiImage.jpegData(compressionQuality: 1.0) else {
@@ -47,10 +47,13 @@ struct PhotoPickerView: View {
                     .scaledToFill()
                     .frame(width: 200, height: 200)
                     .onAppear {
+                        teachableModel.isDone = false // progressview toggle
+                        teachableModel.getData = nil // // 이미지 분석 후 결과view toggle
                          processData(uiImage: image) { error in
                             if let error = error {
                                 // 에러 처리
                                 print("Error: \(error.localizedDescription)")
+                                teachableModel.isDone = true
                             } else {
                                 // 성공적으로 처리된 경우
                                 print("Processing completed successfully")
@@ -58,15 +61,23 @@ struct PhotoPickerView: View {
                             }
                         }
                     }
-                    
-            } else {
-              Text("asdfads")
             }
-            // 사진 모달 여는 버튼
-            PhotosPicker(selection: $photoPickerViewModel.imageSelection) {
-                Text("Open the photo picker")
-                    .foregroundColor(.red)
+            if teachableModel.isDone {
+                // 사진 모달 여는 버튼
+                VStack{
+                    PhotosPicker(selection: $photoPickerViewModel.imageSelection) {
+                        Text("Open the photo picker")
+                            .foregroundColor(.red)
+                    }
+                }
+            }else {
+                ProgressView()
             }
+            
+            if let result = teachableModel.getData?.resultMessage {
+                Text("result : \(result)")
+            }
+            
         }
     }
     

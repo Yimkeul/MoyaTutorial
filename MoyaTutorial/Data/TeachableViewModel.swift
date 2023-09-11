@@ -63,7 +63,7 @@ extension TeachableService: TargetType {
 class TeachableViewModel: ObservableObject {
     @Published var getData: TeachableModel? // 분석 결과
     @Published var getImageURL: ImageURLModel? //이미지 url
-
+    @Published var isDone: Bool = true
     private let provider = MoyaProvider<TeachableService>()
 
     func requestImageURL(imageData: Data, completion: @escaping (Result<ImageURLModel, Error>) -> Void) {
@@ -99,12 +99,14 @@ class TeachableViewModel: ObservableObject {
                     }
                     print("result : \(decodedResponse)")
                     completion(.success(decodedResponse))
+                    self.isDone = true
                 } catch let error {
                     print("Decoding error Teach: \(error.localizedDescription)")
                     completion(.failure(error))
                 }
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
+                self.isDone = false
                 completion(.failure(error))
             }
         }

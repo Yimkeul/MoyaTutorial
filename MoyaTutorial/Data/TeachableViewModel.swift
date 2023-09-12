@@ -12,11 +12,13 @@ import Combine
 enum TeachableService {
     case getData
     case getImageURL(imageData: Data)
+    case getAll(imageData: Data)
 }
 
 extension TeachableService: TargetType {
     var baseURL: URL {
         return URL(string: "https://port-0-teachablemachineapi-2u73n2llm7ax6bh.sel5.cloudtype.app")!
+//        return URL(string : "http://localhost:3000")!
     }
 
     var path: String {
@@ -25,6 +27,8 @@ extension TeachableService: TargetType {
             return "/predict"
         case .getImageURL:
             return "/uploadImage"
+        case .getAll:
+            return "/uploadImage2"
         }
 
     }
@@ -33,7 +37,7 @@ extension TeachableService: TargetType {
         switch self {
         case .getData:
             return .get
-        case .getImageURL:
+        case .getImageURL , .getAll:
             return .post
         }
 
@@ -43,7 +47,7 @@ extension TeachableService: TargetType {
         switch self {
         case .getData:
             return .requestPlain
-        case .getImageURL(let imageData):
+        case .getImageURL(let imageData) , .getAll(let imageData):
             return .uploadMultipart([MultipartFormData(provider: .data(imageData), name: "image", fileName: "image.jpeg", mimeType: "image/jpeg")])
         }
 
@@ -53,7 +57,7 @@ extension TeachableService: TargetType {
         switch self {
         case .getData:
             return ["Content-Type": "application/json"]
-        case .getImageURL:
+        case .getImageURL, .getAll:
             return ["Content-type": "multipart/form-data"]
         }
 
@@ -62,9 +66,34 @@ extension TeachableService: TargetType {
 
 class TeachableViewModel: ObservableObject {
     @Published var getData: TeachableModel? // 분석 결과
+    @Published var getAll: TeachableModel? // 분석 결과
     @Published var getImageURL: ImageURLModel? //이미지 url
     @Published var isDone: Bool = true
     private let provider = MoyaProvider<TeachableService>()
+    
+    func requestAll(imageData: Data, completion: @escaping (Result<TeachableModel, Error>) -> Void) {
+        provider.request(.getAll(imageData: imageData)) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let decodedResponse = try JSONDecoder().decode(TeachableModel.self, from: response.data)
+                    DispatchQueue.main.async {
+                        self.getAll = decodedResponse
+                    }
+                    print("result : \(decodedResponse)")
+                    completion(.success(decodedResponse))
+                    self.isDone = true
+                } catch let error {
+                    print("Decoding error Teach: \(error.localizedDescription)")
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                print("Error Teach: \(error.localizedDescription)")
+                self.isDone = false
+                completion(.failure(error))
+            }
+        }
+    }
 
     func requestImageURL(imageData: Data, completion: @escaping (Result<ImageURLModel, Error>) -> Void) {
         provider.request(.getImageURL(imageData: imageData)) { result in
@@ -82,7 +111,7 @@ class TeachableViewModel: ObservableObject {
                     completion(.failure(error))
                 }
             case .failure(let error):
-                print("Error: \(error.localizedDescription)")
+                print("Error imageurl: \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }
@@ -105,7 +134,7 @@ class TeachableViewModel: ObservableObject {
                     completion(.failure(error))
                 }
             case .failure(let error):
-                print("Error: \(error.localizedDescription)")
+                print("Error Teach: \(error.localizedDescription)")
                 self.isDone = false
                 completion(.failure(error))
             }

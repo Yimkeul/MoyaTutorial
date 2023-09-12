@@ -18,19 +18,28 @@ struct PhotoPickerView: View {
         guard let imageData = uiImage.jpegData(compressionQuality: 1.0) else {
             return print("imageData is nil")
         }
-        imageURLViewModel.requestImageURL(imageData: imageData) { imageURLResult in
-            switch imageURLResult {
+//        imageURLViewModel.requestImageURL(imageData: imageData) { imageURLResult in
+//            switch imageURLResult {
+//            case .success:
+//                teachableModel.requestTeachableData { teachableResult in
+//                    switch teachableResult {
+//                    case .success:
+//                        completion(nil) // 모든 작업이 성공적으로 완료되었을 때
+//                    case .failure(let teachableError):
+//                        completion(teachableError) // teachableModel 요청 중 에러 발생
+//                    }
+//                }
+//            case .failure(let imageURLError):
+//                completion(imageURLError) // imageURLViewModel 요청 중 에러 발생
+//            }
+//        }
+        
+        teachableModel.requestAll(imageData: imageData) { teachableResult in
+            switch teachableResult {
             case .success:
-                teachableModel.requestTeachableData { teachableResult in
-                    switch teachableResult {
-                    case .success:
-                        completion(nil) // 모든 작업이 성공적으로 완료되었을 때
-                    case .failure(let teachableError):
-                        completion(teachableError) // teachableModel 요청 중 에러 발생
-                    }
-                }
-            case .failure(let imageURLError):
-                completion(imageURLError) // imageURLViewModel 요청 중 에러 발생
+                completion(nil) // 모든 작업이 성공적으로 완료되었을 때
+            case .failure(let teachableError):
+                completion(teachableError) // teachableModel 요청 중 에러 발생
             }
         }
     }
@@ -48,7 +57,8 @@ struct PhotoPickerView: View {
                     .frame(width: 200, height: 200)
                     .onAppear {
                         teachableModel.isDone = false // progressview toggle
-                        teachableModel.getData = nil // // 이미지 분석 후 결과view toggle
+//                        teachableModel.getData = nil // // 이미지 분석 후 결과view toggle
+                        teachableModel.getAll = nil
                          processData(uiImage: image) { error in
                             if let error = error {
                                 // 에러 처리
@@ -74,7 +84,7 @@ struct PhotoPickerView: View {
                 ProgressView()
             }
             
-            if let result = teachableModel.getData?.resultMessage {
+            if let result = teachableModel.getAll?.resultMessage {
                 Text("result : \(result)")
             }
             

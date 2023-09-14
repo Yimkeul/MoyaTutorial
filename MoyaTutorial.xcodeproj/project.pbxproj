@@ -69,6 +69,8 @@
 		867F67452AA62110004AE0EE = {
 			isa = PBXGroup;
 			children = (
+				867F67552AA62111004AE0EE /* Assets.xcassets */,
+				867F67512AA62111004AE0EE /* MoyaTutorialApp.swift */,
 				867F67502AA62111004AE0EE /* MoyaTutorial */,
 				867F674F2AA62111004AE0EE /* Products */,
 			);
@@ -88,9 +90,8 @@
 				864BA6072AB2CDAA00816BAD /* TeachableAPI */,
 				86C7E2542AA7795500330D36 /* PostAPI */,
 				86B4F9C02AA8B8500047ECE0 /* PhotoPicker */,
-				867F67512AA62111004AE0EE /* MoyaTutorialApp.swift */,
+				86B4F9C12AA8B8A60047ECE0 /* PhotoPickerView.swift */,
 				867F67532AA62111004AE0EE /* ContentView.swift */,
-				867F67552AA62111004AE0EE /* Assets.xcassets */,
 				867F67572AA62112004AE0EE /* Preview Content */,
 			);
 			path = MoyaTutorial;
@@ -108,7 +109,6 @@
 			isa = PBXGroup;
 			children = (
 				86B4F9BE2AA8B84C0047ECE0 /* PhotoPickerViewModel.swift */,
-				86B4F9C12AA8B8A60047ECE0 /* PhotoPickerView.swift */,
 			);
 			path = PhotoPicker;
 			sourceTree = "<group>";

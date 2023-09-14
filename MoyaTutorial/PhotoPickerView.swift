@@ -41,7 +41,7 @@ struct PhotoPickerView: View {
                     .scaledToFill()
                     .frame(width: 200, height: 200)
                     .onAppear {
-                        teachableModel.isDone = false // progressview toggle
+//                        teachableModel.isDone = false // progressview toggle
                         teachableModel.getAll = nil
                          processData(uiImage: image) { error in
                             if let error = error {

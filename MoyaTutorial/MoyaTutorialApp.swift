@@ -11,7 +11,8 @@ import SwiftUI
 struct MoyaTutorialApp: App {
     var body: some Scene {
         WindowGroup {
-            PhotoPickerView()
+//            PhotoPickerView()
+            ContentView()
         }
     }
 }

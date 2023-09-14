@@ -7,51 +7,6 @@
 
 import Foundation
 import Moya
-import Combine
-
-enum PostService {
-    case getPost
-    case sendPost
-}
-
-extension PostService: TargetType {
-    var baseURL: URL {
-        return URL(string: "https://jsonplaceholder.typicode.com/")!
-    }
-    
-    var path: String {
-        switch self {
-        case .getPost:
-            return "posts/1"
-        case .sendPost:
-            return "posts"
-        }
-    }
-    
-    var method: Moya.Method {
-        switch self {
-        case .getPost:
-            return .get
-        case .sendPost:
-            return .post
-        }
-    }
-    
-    var task: Moya.Task {
-        switch self {
-        case .getPost:
-            return .requestPlain
-        case .sendPost:
-            return .requestPlain
-        }
-    }
-    
-    var headers: [String : String]? {
-        return ["Content-Type": "application/json"]
-    }
-    
-    
-}
 
 class PostViewModel: ObservableObject {
     @Published var getPostData: GetPostData?

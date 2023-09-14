@@ -3,42 +3,28 @@ import Moya
 
 struct ContentView: View {
     @StateObject var postViewModel: PostViewModel = PostViewModel()
-    @StateObject var teachableModel: TeachableViewModel = TeachableViewModel()
+
     var body: some View {
-        
-        VStack{
-            Text("Hello")
-            
-            if let getPostData = postViewModel.getPostData {
-                     Text("ID: \(getPostData.id)")
-                     Text("UserID: \(getPostData.userId)")
-                     Text("Title: \(getPostData.title)")
-                     Text("Body: \(getPostData.body)")
-                 }
-            
+
+        VStack {
             Button {
-                postViewModel.requestSendPost()
+                postViewModel.requestPost()
             } label: {
-                Text("전송하기")
-            }
-            
-            if let sendPostData = postViewModel.sendPostData {
-                Text("send id : \(sendPostData.id)")
-            }
-            
-            if let teachableData = teachableModel.getData {
-                Text("결과값 : \(teachableData.topClassIndex)")
-                Text("결과값 : \(teachableData.resultMessage)")
-            }else {
-                ProgressView()
+                Text("통신하기")
             }
 
-        }.task {
-            postViewModel.requestPost()
-//            await teachableModel.requestTeachableData()
+            if let getPostData = postViewModel.getPostData {
+                Text("ID: \(getPostData.id)")
+                Text("UserID: \(getPostData.userId)")
+                Text("Title: \(getPostData.title)")
+                Text("Body: \(getPostData.body)")
+            } else {
+                Text("결과값이 없습니다.")
+            }
         }
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
